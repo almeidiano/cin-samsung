@@ -4,6 +4,7 @@ import { fetchBooks } from '../services/openLibraryAPI';
 export default function useBooks(searchTerm) {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [booksError, setBooksError] = useState(false);
 
   useEffect(() => {
     if (!searchTerm) {
@@ -11,10 +12,15 @@ export default function useBooks(searchTerm) {
       return;
     }
     setLoading(true);
-    fetchBooks(searchTerm)
-      .then(res => {setBooks(res.data.docs);console.log(res.data.docs)})
+    try {
+      fetchBooks(searchTerm)
+      .then(res => {setBooks(res.docs)})
       .finally(() => setLoading(false));
+    } catch (error) {
+      console.log(error)
+      setBooksError(true);
+    }
   }, [searchTerm]);
 
-  return { books, loading };
+  return { books, loading, booksError };
 }
