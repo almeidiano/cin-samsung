@@ -5,10 +5,9 @@ import useBooks from './hooks/useBooks'
 import Loading from './components/Loading'
 import BookModal from './components/BookModal'
 import { fetchDetailedBook } from './services/openLibraryAPI';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
 import CustomPagination from './components/Pagination';
 import NotFound from './components/NotFound';
+import Error from './components/Error';
 
 function App() {
   // 1º. O estado da busca é atualizado através do setSearch.
@@ -101,30 +100,23 @@ function App() {
           </div>
         )}
       </div>
-      
-      {detailedBookError && <>
-        <Snackbar open={detailedBookError} autoHideDuration={4000} onClose={handleCloseDetailedBook}>
-        <Alert
-          severity="error"
-          variant="filled"
-          sx={{ width: '100%' }}
-        >
-          Ocorreu um erro ao buscar os detalhes do livro.
-        </Alert>
-      </Snackbar>
-      </>}
 
-      {booksError && <>
-        <Snackbar open={booksError} autoHideDuration={4000} onClose={handleCloseBooksError}>
-        <Alert
-          severity="error"
-          variant="filled"
-          sx={{ width: '100%' }}
-        >
-          Ocorreu um erro ao buscar os livros.
-        </Alert>
-      </Snackbar>
-      </>}
+
+      {booksError && (
+        <Error
+          open={booksError}
+          onClose={handleCloseBooksError}
+          message="Ocorreu um erro ao buscar os livros."
+        />
+      )}
+
+      {detailedBookError && (
+        <Error
+          open={detailedBookError}
+          onClose={handleCloseDetailedBook}
+          message="Ocorreu um erro ao buscar os detalhes do livro."
+        />
+      )}
 
     </main>
   )
