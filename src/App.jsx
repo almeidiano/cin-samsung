@@ -1,12 +1,15 @@
 import { useState, React } from 'react'
 import SearchBar from './components/SearchBar';
 import BookCard from './components/BookCard';
-// import { Grid, Typography, Card, CardMedia, CardContent, CardActions, IconButton } from '@mui/material';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
 import useBooks from './hooks/useBooks'
 import SkeletonList from './components/SkeletonList'
 
 function App() {
+  // 1º. O estado da busca é atualizado através do setSearch.
+  // 2º. No componente de pesquisa, (SearchBar) valor é atualizado através do hook debouncer para 
+  // limitar o excesso de chamadas à API
+  // 3º. O valor retornado é enviado para o hook useBooks, no qual faz à chamada para o serviço da open library (openLibraryAPI)
+
   const [search, setSearch] = useState('');
   const { books, loading } = useBooks(search);
 

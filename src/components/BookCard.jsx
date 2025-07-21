@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import InfoIcon from '@mui/icons-material/Info';
 import styles from '../BookCard.module.css';
 
 export default function BookCard({author_name, cover_i, first_publish_year, key, title}) {
@@ -28,7 +28,7 @@ export default function BookCard({author_name, cover_i, first_publish_year, key,
         <FavoriteIcon fontSize="small" />
       </IconButton>
       <IconButton className={styles.iconBtn}>
-        <MoreVertIcon fontSize="small" />
+        <InfoIcon fontSize="small" />
       </IconButton>
     </Box>
   );

@@ -8,19 +8,27 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
+import useDebounce from '../hooks/useDebounce'
+import { useEffect } from 'react'
 
-export default function SearchBar({ onSearch, placeholder = "Pesquisar...", sx = {} }) {
+export default function SearchBar({ onSearch, placeholder = "Pesquisar...", sx = {}}) {
   const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 200)
 
-  const handleSearch = (value) => {
-    setSearchTerm(value);
+  // Chama onSearch apenas quando o valor debounced muda
+  useEffect(() => {
     if (onSearch) {
-      onSearch(value);
+      onSearch(debouncedSearchTerm);
     }
+  }, [debouncedSearchTerm, onSearch]);
+
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value);
   };
 
   const handleClear = () => {
     setSearchTerm('');
+
     if (onSearch) {
       onSearch('');
     }
@@ -79,7 +87,7 @@ export default function SearchBar({ onSearch, placeholder = "Pesquisar...", sx =
           }}
           placeholder={placeholder}
           value={searchTerm}
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={handleChange}
           inputProps={{ 'aria-label': 'search' }}
         />
         
