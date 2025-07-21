@@ -4,6 +4,7 @@ import BookCard from './components/BookCard';
 import useBooks from './hooks/useBooks'
 import Loading from './components/Loading'
 import BookModal from './components/BookModal'
+import { fetchDetailedBook } from './services/openLibraryAPI';
 
 function App() {
   // 1º. O estado da busca é atualizado através do setSearch.
@@ -13,8 +14,13 @@ function App() {
 
   const [search, setSearch] = useState('');
   const { books, loading } = useBooks(search);
-  const [selectedBook, setSelectedBook] = useState(null);
-  
+  const [detailedBook, setDetailedBookInfo] = useState(null);
+
+  const handleDetailedBook = (book) => {
+    fetchDetailedBook(book.title)
+    .then(res => setDetailedBookInfo(res.data.docs[0]))
+  }
+
   return (
     <main className="container mx-auto my-8">
       <SearchBar onSearch={setSearch} placeholder="Digite para pesquisar..." />
@@ -35,13 +41,15 @@ function App() {
                     cover_i={book.cover_i}
                     first_publish_year={book.first_publish_year}
                     title={book.title}
-                    onInfoClick={() => setSelectedBook(book)}
+                    onInfoClick={() => handleDetailedBook(book)}
                   />
                 ))}
                 <BookModal
-                  open={!!selectedBook}
-                  onClose={() => setSelectedBook(null)}
-                  book={selectedBook}
+                  open={!!detailedBook}
+                  onClose={() => {
+                    setDetailedBookInfo(null);
+                  }}
+                  book={detailedBook}
                 />
               </>
             )}

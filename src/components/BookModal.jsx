@@ -23,12 +23,15 @@ const style = {
   overflow: 'auto'
 };
 
-export default function BookModal({ open, onClose, book }) {
+export default function bookModal({ open, onClose, book }) {
+  // const [detailedbook, setDetailedbookInfo] = React.useState({});
   const [imgLoaded, setImgLoaded] = React.useState(true);
+  
   if (!book) return null;
+  // console.log(book)
 
   return (
-    <Modal open={true} onClose={onClose}>
+    <Modal open={open} onClose={onClose}>
       <Box sx={style}>
         <Box sx={{
           display: 'flex',
@@ -103,7 +106,7 @@ export default function BookModal({ open, onClose, book }) {
             {/* Author */}
             {imgLoaded ? (
               <Typography variant="subtitle1" sx={{ mb: 2, textDecorationLine: 'underline' }}>
-                {book.author_name}
+                {book.author_name[0]}
               </Typography>
             ) : (
               <Skeleton variant="text" width="40%" height={28} sx={{ mb: 2 }} />
@@ -123,7 +126,7 @@ export default function BookModal({ open, onClose, book }) {
             {/* Editora */}
             {imgLoaded ? (
               <Typography variant="subtitle">
-                <b>Editora:</b> {book.publisher}
+                <b>Editora:</b> {book.publisher[0]}
               </Typography>
             ) : (
               <Skeleton variant="text" width="50%" height={24} sx={{ mb: 1 }} />
@@ -141,7 +144,7 @@ export default function BookModal({ open, onClose, book }) {
             {/* Páginas */}
             {imgLoaded ? (
               <Typography variant="subtitle1">
-                <b>Páginas:</b> {book.number_of_pages_median}
+                <b>Páginas:</b> {book.number_of_pages_median ? book.number_of_pages_median : 'N/A'}
               </Typography>
             ) : (
               <Skeleton variant="text" width="30%" height={24} sx={{ mb: 1 }} />
