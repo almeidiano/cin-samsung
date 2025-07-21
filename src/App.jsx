@@ -1,29 +1,43 @@
-import { React } from 'react'
+import { useState, React } from 'react'
 import SearchBar from './components/SearchBar';
-import Skeleton from '@mui/material/Skeleton';
-import { Grid } from '@mui/material';
-import styles from './main.module.css';
+import BookCard from './components/BookCard';
+// import { Grid, Typography, Card, CardMedia, CardContent, CardActions, IconButton } from '@mui/material';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
+import useBooks from './hooks/useBooks'
+import SkeletonList from './components/SkeletonList'
+
 function App() {
+  const [search, setSearch] = useState('');
+  const { books, loading } = useBooks(search);
+
   return (
     <main className="container mx-auto my-8">
-      <SearchBar 
-        onSearch={(term) => console.log('Pesquisando:', term)}
-        placeholder="Digite para pesquisar..."
-      />
+      <SearchBar onSearch={setSearch} placeholder="Digite para pesquisar..." />
 
       <div>
-        <h5 className='text-xl my-2'>Resultados da Pesquisa</h5>
-
-        <Grid container wrap="nowrap" className={styles.bookGrid}>
-          <div className={styles.bookGrid}>
-            <Skeleton variant="rectangular" width={300} height={290} />
-            <Skeleton variant="rectangular" width={300} height={290} />
-            <Skeleton variant="rectangular" width={300} height={290} />
-            <Skeleton variant="rectangular" width={300} height={290} />
+        {loading ? (
+          <SkeletonList />
+        ) : (
+          <div style={{ display: 'flex', flexWrap: 'wrap'}}>
+            {loading ? (
+              <SkeletonList />
+            ) : (
+              <>
+                {books.slice(0, 10).map(book => (
+                  <BookCard
+                    key={book.key}
+                    author_name={book.author_name?.[0]}
+                    cover_i={book.cover_i}
+                    first_publish_year={book.first_publish_year}
+                    title={book.title}
+                  />
+                ))}
+              </>
+            )}
           </div>
-        </Grid>
-
+        )}
       </div>
+      
     </main>
   )
 }

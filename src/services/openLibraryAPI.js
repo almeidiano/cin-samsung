@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-export const apiInstance = axios.create({
-  baseURL: 'https://covers.openlibrary.org/b/id',
-//   timeout: 5000, // 5 seconds timeout
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
+export function fetchBooks(termo) {
+  return axios.get(
+    `https://openlibrary.org/search.json?q=${encodeURIComponent(termo)}&limit=25&fields=title,author_name,cover_i,first_publish_year,key`,
+    {
+      headers: { 'Content-Type': 'application/json' }
+    }
+  );
+}

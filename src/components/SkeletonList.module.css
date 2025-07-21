@@ -1,0 +1,46 @@
+.skeletonContainer {
+  width: 100%;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 12px;
+  background: transparent;
+}
+
+.activeRow {
+  composes: row;
+  background: #f3f4f6;
+}
+
+.thumbnail {
+  border-radius: 8px;
+  background: #e5e7eb !important;
+}
+
+.titleArtist {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  background: #e5e7eb !important;
+  margin-bottom: 4px;
+}
+
+.artist {
+  background: #f3f4f6 !important;
+}
+
+.icon {
+  background: #e5e7eb !important;
+  margin-left: 8px;
+} 

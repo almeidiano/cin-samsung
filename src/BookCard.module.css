@@ -1,0 +1,71 @@
+.bookCardRow {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 20px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  gap: 20px;
+  width: 100%;
+}
+
+.thumbnail {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-right: 16px;
+}
+
+.titleArtist {
+  display: flex;
+  flex-direction: column;
+  flex: 2 1 0;
+  min-width: 0;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artist {
+  color: #6b7280;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.album {
+  flex: 1 1 0;
+  color: #444;
+  font-size: 0.97rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.date {
+  flex: 1 1 0;
+  color: #888;
+  font-size: 0.97rem;
+  text-align: left;
+}
+
+.duration {
+  flex: 0 0 60px;
+  color: #888;
+  font-size: 0.97rem;
+  text-align: right;
+}
+
+.iconBtn {
+  color: #bdbdbd;
+  margin-left: 8px;
+} 
