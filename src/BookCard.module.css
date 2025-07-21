@@ -69,3 +69,10 @@
   color: #bdbdbd;
   margin-left: 8px;
 } 
+
+.parentThumbnail {
+  position: 'relative'; 
+  display: 'flex'; 
+  align-items: 'center'; 
+  justify-content: 'center';
+}

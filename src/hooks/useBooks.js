@@ -7,6 +7,12 @@ export default function useBooks(searchTerm, page) {
   const [booksError, setBooksError] = useState(false);
 
   useEffect(() => {
+    if (!searchTerm) {
+      setBooks([]);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setBooksError(false); 
     
@@ -19,5 +25,5 @@ export default function useBooks(searchTerm, page) {
       .finally(() => setLoading(false));
   }, [searchTerm, page]);
 
-  return { books, loading, booksError };
+  return { books, loading, booksError, setBooksError};
 }

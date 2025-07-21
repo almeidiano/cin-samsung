@@ -7,54 +7,19 @@ import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Skeleton from '@mui/material/Skeleton';
+import styles from '../BookModal.module.css';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: { xs: '95vw', sm: 800 },
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  borderRadius: 3,
-  p: 0,
-  outline: 'none',
-  maxHeight: '90vh',
-  overflow: 'auto'
-};
-
-export default function bookModal({ open, onClose, book }) {
-  // const [detailedbook, setDetailedbookInfo] = React.useState({});
+export default function BookModal({ open, onClose, book }) {
   const [imgLoaded, setImgLoaded] = React.useState(true);
-  
+
   if (!book) return null;
-  // console.log(book)
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Box sx={style}>
-        <Box sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', sm: 'row' },
-          height: '100%',
-        }}>
+      <Box className={styles.modalBox}>
+        <Box className={styles.modalContent}>
           {/* Imagem à esquerda */}
-          <Box
-            sx={{
-              minWidth: { xs: '100%', sm: 300 },
-              maxWidth: { xs: '100%', sm: 300 },
-              height: 450, // altura fixa para imagem e skeleton
-              display: 'flex',
-              alignItems: 'stretch',
-              justifyContent: 'center',
-              borderTopLeftRadius: 12,
-              borderBottomLeftRadius: 12,
-              overflow: 'hidden',
-              p: 0,
-              m: 0,
-              bgcolor: '#f5f5f5',
-            }}
-          >
+          <Box className={styles.coverBox}>
             {imgLoaded ? (
               <Box
                 component="img"
@@ -62,65 +27,50 @@ export default function bookModal({ open, onClose, book }) {
                   ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
                   : 'https://placehold.co/300x450?text=Sem+Capa'}
                 onLoad={() => setImgLoaded(true)}
-                sx={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block',
-                  p: 0,
-                  m: 0,
-                }}
+                className={styles.coverImg}
               />
             ) : (
               <Skeleton
                 variant="rectangular"
                 width="100%"
                 height="100%"
-                sx={{
-                  borderRadius: 0,
-                  bgcolor: '#e0e0e0',
-                }}
+                className="rounded-none bg-gray-200 w-full h-full"
               />
             )}
           </Box>
           {/* Conteúdo à direita */}
-          <Box sx={{
-            flex: 1,
-            p: 4,
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
-            <IconButton onClick={onClose} sx={{ position: 'absolute', top: 8, right: 0 }}>
+          <Box className={styles.contentBox}>
+            <IconButton onClick={onClose} className={styles.closeBtn}>
               <CloseIcon />
             </IconButton>
 
             {/* Title */}
             {imgLoaded ? (
-              <Typography variant="h5" sx={{ fontWeight: 600 }}>
+              <Typography variant="h5" className={styles.title}>
                 {book.title}
               </Typography>
             ) : (
-              <Skeleton variant="text" width="60%" height={40} sx={{ mb: 2 }} />
+              <Skeleton variant="text" width="60%" height={40} className="mb-2" />
             )}
 
             {/* Author */}
             {imgLoaded ? (
-              <Typography variant="subtitle1" sx={{ mb: 2, textDecorationLine: 'underline' }}>
+              <Typography variant="subtitle1" className={styles.underline}>
                 {book.author_name[0]}
               </Typography>
             ) : (
-              <Skeleton variant="text" width="40%" height={28} sx={{ mb: 2 }} />
+              <Skeleton variant="text" width="40%" height={28} className="mb-2" />
             )}
 
             {/* Favoritar Button */}
             {imgLoaded ? (
-              <Box>
-                <Button variant="outlined" startIcon={<FavoriteIcon />} sx={{ mb: 2 }}>
+              <Box className="my-2">
+                <Button variant="outlined" startIcon={<FavoriteIcon />}>
                   Favoritar
                 </Button>
               </Box>
             ) : (
-              <Skeleton variant="rectangular" width={120} height={36} sx={{ mb: 2, borderRadius: 2 }} />
+              <Skeleton variant="rectangular" width={120} height={36} className="mb-2 rounded" />
             )}
 
             {/* Editora */}
@@ -129,7 +79,7 @@ export default function bookModal({ open, onClose, book }) {
                 <b>Editora:</b> {book.publisher[0]}
               </Typography>
             ) : (
-              <Skeleton variant="text" width="50%" height={24} sx={{ mb: 1 }} />
+              <Skeleton variant="text" width="50%" height={24} className="mb-1" />
             )}
 
             {/* Ano */}
@@ -138,7 +88,7 @@ export default function bookModal({ open, onClose, book }) {
                 <b>Ano:</b> {book.first_publish_year}
               </Typography>
             ) : (
-              <Skeleton variant="text" width="30%" height={24} sx={{ mb: 1 }} />
+              <Skeleton variant="text" width="30%" height={24} className="mb-1" />
             )}
 
             {/* Páginas */}
@@ -147,7 +97,7 @@ export default function bookModal({ open, onClose, book }) {
                 <b>Páginas:</b> {book.number_of_pages_median ? book.number_of_pages_median : 'N/A'}
               </Typography>
             ) : (
-              <Skeleton variant="text" width="30%" height={24} sx={{ mb: 1 }} />
+              <Skeleton variant="text" width="30%" height={24} className="mb-1" />
             )}
           </Box>
         </Box>

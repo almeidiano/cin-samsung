@@ -15,19 +15,26 @@ function App() {
   // 2º. No componente de pesquisa, (SearchBar) valor é atualizado através do hook debouncer para 
   // limitar o excesso de chamadas à API.
   // 3º. O valor retornado é enviado para o hook useBooks, no qual faz à chamada para o serviço da open library (openLibraryAPI).
-
+  
   const [search, setSearch] = useState('');
   const [detailedBook, setDetailedBookInfo] = useState(null);
-  const [detailedBookError, setDetailedBookError] = useState(false);
+
+  // páginas
   const [page, setPage] = useState(1);
-  const booksPerPage = 10;
-  const { books, loading, booksError } = useBooks(search, page);
+  const booksPerPage = 10;  
   
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setDetailedBookError(false); 
+  // erros
+  const { books, loading, booksError, setBooksError } = useBooks(search, page);
+  const [detailedBookError, setDetailedBookError] = useState(false);
+
+  const handleCloseBooksError = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setBooksError(false);
+  };
+
+  const handleCloseDetailedBook = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setDetailedBookError(false);
   };
 
   // Resetar página ao mudar a busca
@@ -54,53 +61,51 @@ function App() {
           <Loading />
         ) : (
           <div className='flex flex-wrap mt-2'>
-            {loading ? (
-              <Loading />
-            ) : (
-              <>
-                {books.length > 0 ? (
-                  books.map(book => (
-                    <>
-                      <BookCard
-                        key={book.key}
-                        author_name={book.author_name?.[0]}
-                        cover_i={book.cover_i}
-                        first_publish_year={book.first_publish_year}
-                        title={book.title}
-                        onInfoClick={() => handleDetailedBook(book)}
-                      />
-                    </>
-                  )) 
-                  )
-                  : 
-                  (<NotFound query={search} />)
-                }
-  
-                {books.length > 0 && (
+            {search ? (
+              books.length > 0 ? (
+                <>
+                  {books.map(book => (
+                    <BookCard
+                      key={book.key}
+                      author_name={book.author_name?.[0]}
+                      cover_i={book.cover_i}
+                      first_publish_year={book.first_publish_year}
+                      title={book.title}
+                      onInfoClick={() => handleDetailedBook(book)}
+                    />
+                  ))}
                   <CustomPagination
                     page={page}
                     setPage={setPage}
                     totalPages={Math.ceil(books.length / booksPerPage)}
                   />
-                )}
-
-                <BookModal
-                  open={!!detailedBook}
-                  onClose={() => {
-                    setDetailedBookInfo(null);
-                  }}
-                  book={detailedBook}
-                />
-              </>
+                </>
+              ) : (
+                <NotFound query={search} />
+              )
+            ) : (
+              <div className="flex flex-col items-center justify-center w-full py-8">
+                <p className="sm:text-2xl text-xl font-semibold mb-2 text-center">
+                  Digite um termo para pesquisar...
+                </p>
+              </div>
             )}
+
+
+            <BookModal
+              open={!!detailedBook}
+              onClose={() => {
+                setDetailedBookInfo(null);
+              }}
+              book={detailedBook}
+            />
           </div>
         )}
       </div>
       
       {detailedBookError && <>
-        <Snackbar open={detailedBookError} autoHideDuration={3000} onClose={handleClose}>
+        <Snackbar open={detailedBookError} autoHideDuration={4000} onClose={handleCloseDetailedBook}>
         <Alert
-          onClose={handleClose}
           severity="error"
           variant="filled"
           sx={{ width: '100%' }}
@@ -109,10 +114,10 @@ function App() {
         </Alert>
       </Snackbar>
       </>}
+
       {booksError && <>
-        <Snackbar open={booksError} autoHideDuration={3000} onClose={handleClose}>
+        <Snackbar open={booksError} autoHideDuration={4000} onClose={handleCloseBooksError}>
         <Alert
-          onClose={handleClose}
           severity="error"
           variant="filled"
           sx={{ width: '100%' }}
@@ -121,6 +126,7 @@ function App() {
         </Alert>
       </Snackbar>
       </>}
+
     </main>
   )
 }
