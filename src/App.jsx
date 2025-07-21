@@ -1,4 +1,4 @@
-import { useState, React } from 'react'
+import { useState, React, useEffect } from 'react'
 import SearchBar from './components/SearchBar';
 import BookCard from './components/BookCard';
 import useBooks from './hooks/useBooks'
@@ -18,17 +18,21 @@ function App() {
   const [search, setSearch] = useState('');
   const [detailedBook, setDetailedBookInfo] = useState(null);
   const [detailedBookError, setDetailedBookError] = useState(false);
-  const { books, loading, booksError } = useBooks(search);
   const [page, setPage] = useState(1);
   const booksPerPage = 10;
-  const paginatedBooks = books.slice((page - 1) * booksPerPage, page * booksPerPage);
-
+  const { books, loading, booksError } = useBooks(search, page);
+  
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setDetailedBookError(false); 
   };
+
+  // Resetar página ao mudar a busca
+  useEffect(() => {
+    setPage(1);
+  }, [search]);  
 
   const handleDetailedBook = async (book) => {
     try {
@@ -53,7 +57,7 @@ function App() {
               <Loading />
             ) : (
               <>
-                {paginatedBooks.map(book => (
+                {books.map(book => (
                   <BookCard
                     key={book.key}
                     author_name={book.author_name?.[0]}
@@ -63,11 +67,28 @@ function App() {
                     onInfoClick={() => handleDetailedBook(book)}
                   />
                 ))}
-                <Pagination
-                  count={Math.ceil(books.length / booksPerPage)}
-                  page={page}
-                  onChange={(event, value) => setPage(value)}
-                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '16px 0' }}>
+                  <button
+                    onClick={() => setPage(1)}
+                    disabled={page === 1}
+                    style={{ padding: '6px 12px', borderRadius: '4px', border: '1px solid #ccc', background: page === 1 ? '#eee' : '#fff', cursor: page === 1 ? 'not-allowed' : 'pointer' }}
+                  >
+                    Primeira
+                  </button>
+                  <Pagination
+                    count={Math.ceil(books.length / booksPerPage)}
+                    page={page}
+                    onChange={(event, value) => setPage(value)}
+                  />
+
+                  <button
+                    onClick={() => setPage(Math.ceil(books.length / booksPerPage))}
+                    disabled={page === Math.ceil(books.length / booksPerPage) || books.length === 0}
+                    style={{ padding: '6px 12px', borderRadius: '4px', border: '1px solid #ccc', background: page === Math.ceil(books.length / booksPerPage) || books.length === 0 ? '#eee' : '#fff', cursor: page === Math.ceil(books.length / booksPerPage) || books.length === 0 ? 'not-allowed' : 'pointer' }}
+                  >
+                    Última
+                  </button>
+                </div>
                 <BookModal
                   open={!!detailedBook}
                   onClose={() => {

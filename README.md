@@ -1,12 +1,33 @@
-# React + Vite
+# Dashboard de Livros - OpenLibrary
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Visão Geral
 
-Currently, two official plugins are available:
+### Descrição do Projeto
+Aplicação web Dashboard de Livros que permite gerenciar obras a partir da API pública da OpenLibrary
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Funcionalidades
+Listar, pesquisar e visualizar detalhes das obras.
 
-## Expanding the ESLint configuration
+## Tecnologias
+- React 19.1.0
+- Material-UI 7.x
+- Axios
+- React Testing Library
+- Storybook
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Instalação
+- npm install
+- npm start
+
+## Scripts Disponíveis
+- `npm start`: Desenvolvimento
+- `npm run build`: Build de produção
+
+## Decisões Técnicas
+
+###
+
+## Próximos Passos
+
+### Erro de paginação (OpenLibrary)
+Durante o desenvolvimento, infelizmente a API da open library frequentemente retoronou erro 500 ao inserir o caractere * no parâmetro query. Porém, isso é devidamente tratado na aplicação e esse erro é ignorado através de uma simples busca no campo de pesquisa.
