@@ -8,7 +8,7 @@ import styles from '../BookCard.module.css';
 import Skeleton from '@mui/material/Skeleton';
 
 export default function BookCard({author_name, cover_i, first_publish_year, key, title, onInfoClick}) {
-  const [imgLoaded, setImgLoaded] = React.useState(false);
+  const [imgLoaded, setImgLoaded] = React.useState(true);
 
   return (
     <Box className={styles.bookCardRow}>
@@ -17,10 +17,9 @@ export default function BookCard({author_name, cover_i, first_publish_year, key,
         {!imgLoaded && (
           <Skeleton
             variant="rectangular"
-            width={50}
-            height={75}
+            width={48}
+            height={48}
             className={styles.thumbnail}
-            style={{ position: 'absolute', top: 0, left: 0 }}
           />
         )}
         <img

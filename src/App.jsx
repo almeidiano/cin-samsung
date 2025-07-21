@@ -91,7 +91,6 @@ function App() {
               </div>
             )}
 
-
             <BookModal
               open={!!detailedBook}
               onClose={() => {

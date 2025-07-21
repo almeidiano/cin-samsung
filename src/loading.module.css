@@ -3,6 +3,7 @@
   background: #fff;
   border-radius: 16px;
   padding: 16px;
+  margin-top: 10px;
 }
 
 .row {
@@ -34,9 +35,11 @@
 .title {
   background: #e5e7eb !important;
   margin-bottom: 4px;
+  margin-left: 16px;
 }
 
 .artist {
+  margin-left: 16px;
   background: #f3f4f6 !important;
 }
 
