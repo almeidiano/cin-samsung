@@ -6,8 +6,9 @@ import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import InfoIcon from '@mui/icons-material/Info';
 import styles from '../BookCard.module.css';
+import TouchRipple from '@mui/material/ButtonBase/TouchRipple';
 
-export default function BookCard({author_name, cover_i, first_publish_year, key, title}) {
+export default function BookCard({author_name, cover_i, first_publish_year, key, title, onInfoClick}) {
   return (
     <Box className={styles.bookCardRow}>
       {/* Miniatura */}
@@ -27,7 +28,7 @@ export default function BookCard({author_name, cover_i, first_publish_year, key,
       <IconButton className={styles.iconBtn}>
         <FavoriteIcon fontSize="small" />
       </IconButton>
-      <IconButton className={styles.iconBtn}>
+      <IconButton className={styles.iconBtn} onClick={onInfoClick}>
         <InfoIcon fontSize="small" />
       </IconButton>
     </Box>

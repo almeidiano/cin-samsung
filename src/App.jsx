@@ -2,7 +2,8 @@ import { useState, React } from 'react'
 import SearchBar from './components/SearchBar';
 import BookCard from './components/BookCard';
 import useBooks from './hooks/useBooks'
-import SkeletonList from './components/SkeletonList'
+import Loading from './components/Loading'
+import BookModal from './components/BookModal'
 
 function App() {
   // 1º. O estado da busca é atualizado através do setSearch.
@@ -12,29 +13,36 @@ function App() {
 
   const [search, setSearch] = useState('');
   const { books, loading } = useBooks(search);
-
+  const [selectedBook, setSelectedBook] = useState(null);
+  
   return (
     <main className="container mx-auto my-8">
       <SearchBar onSearch={setSearch} placeholder="Digite para pesquisar..." />
 
       <div>
         {loading ? (
-          <SkeletonList />
+          <Loading />
         ) : (
-          <div style={{ display: 'flex', flexWrap: 'wrap'}}>
+          <div className='flex flex-wrap mt-2'>
             {loading ? (
-              <SkeletonList />
+              <Loading />
             ) : (
               <>
-                {books.slice(0, 10).map(book => (
+                {books.map(book => (
                   <BookCard
                     key={book.key}
                     author_name={book.author_name?.[0]}
                     cover_i={book.cover_i}
                     first_publish_year={book.first_publish_year}
                     title={book.title}
+                    onInfoClick={() => setSelectedBook(book)}
                   />
                 ))}
+                <BookModal
+                  open={!!selectedBook}
+                  onClose={() => setSelectedBook(null)}
+                  book={selectedBook}
+                />
               </>
             )}
           </div>

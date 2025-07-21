@@ -12,7 +12,7 @@ export default function useBooks(searchTerm) {
     }
     setLoading(true);
     fetchBooks(searchTerm)
-      .then(res => setBooks(res.data.docs))
+      .then(res => {setBooks(res.data.docs);console.log(res.data.docs)})
       .finally(() => setLoading(false));
   }, [searchTerm]);
 
