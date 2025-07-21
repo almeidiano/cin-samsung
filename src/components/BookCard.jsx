@@ -1,12 +1,10 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import InfoIcon from '@mui/icons-material/Info';
 import styles from '../BookCard.module.css';
-import TouchRipple from '@mui/material/ButtonBase/TouchRipple';
 
 export default function BookCard({author_name, cover_i, first_publish_year, key, title, onInfoClick}) {
   return (

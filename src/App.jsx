@@ -8,6 +8,7 @@ import { fetchDetailedBook } from './services/openLibraryAPI';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import CustomPagination from './components/Pagination';
+import NotFound from './components/NotFound';
 
 function App() {
   // 1º. O estado da busca é atualizado através do setSearch.
@@ -59,25 +60,29 @@ function App() {
               <>
                 {books.length > 0 ? (
                   books.map(book => (
-                    <BookCard
-                      key={book.key}
-                      author_name={book.author_name?.[0]}
-                      cover_i={book.cover_i}
-                      first_publish_year={book.first_publish_year}
-                      title={book.title}
-                      onInfoClick={() => handleDetailedBook(book)}
-                    />
+                    <>
+                      <BookCard
+                        key={book.key}
+                        author_name={book.author_name?.[0]}
+                        cover_i={book.cover_i}
+                        first_publish_year={book.first_publish_year}
+                        title={book.title}
+                        onInfoClick={() => handleDetailedBook(book)}
+                      />
+                    </>
                   )) 
                   )
                   : 
-                  (<p className="text-center text-gray-500">Nenhum livro encontrado. Tente outro termo de busca.</p>)
+                  (<NotFound query={search} />)
                 }
-
-                <CustomPagination
-                  page={page}
-                  setPage={setPage}
-                  totalPages={Math.ceil(books.length / booksPerPage)}
-                />
+  
+                {books.length > 0 && (
+                  <CustomPagination
+                    page={page}
+                    setPage={setPage}
+                    totalPages={Math.ceil(books.length / booksPerPage)}
+                  />
+                )}
 
                 <BookModal
                   open={!!detailedBook}
