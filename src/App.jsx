@@ -7,7 +7,7 @@ import BookModal from './components/BookModal'
 import { fetchDetailedBook } from './services/openLibraryAPI';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import Pagination from '@mui/material/Pagination';
+import CustomPagination from './components/Pagination';
 
 function App() {
   // 1º. O estado da busca é atualizado através do setSearch.
@@ -57,38 +57,28 @@ function App() {
               <Loading />
             ) : (
               <>
-                {books.map(book => (
-                  <BookCard
-                    key={book.key}
-                    author_name={book.author_name?.[0]}
-                    cover_i={book.cover_i}
-                    first_publish_year={book.first_publish_year}
-                    title={book.title}
-                    onInfoClick={() => handleDetailedBook(book)}
-                  />
-                ))}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '16px 0' }}>
-                  <button
-                    onClick={() => setPage(1)}
-                    disabled={page === 1}
-                    style={{ padding: '6px 12px', borderRadius: '4px', border: '1px solid #ccc', background: page === 1 ? '#eee' : '#fff', cursor: page === 1 ? 'not-allowed' : 'pointer' }}
-                  >
-                    Primeira
-                  </button>
-                  <Pagination
-                    count={Math.ceil(books.length / booksPerPage)}
-                    page={page}
-                    onChange={(event, value) => setPage(value)}
-                  />
+                {books.length > 0 ? (
+                  books.map(book => (
+                    <BookCard
+                      key={book.key}
+                      author_name={book.author_name?.[0]}
+                      cover_i={book.cover_i}
+                      first_publish_year={book.first_publish_year}
+                      title={book.title}
+                      onInfoClick={() => handleDetailedBook(book)}
+                    />
+                  )) 
+                  )
+                  : 
+                  (<p className="text-center text-gray-500">Nenhum livro encontrado. Tente outro termo de busca.</p>)
+                }
 
-                  <button
-                    onClick={() => setPage(Math.ceil(books.length / booksPerPage))}
-                    disabled={page === Math.ceil(books.length / booksPerPage) || books.length === 0}
-                    style={{ padding: '6px 12px', borderRadius: '4px', border: '1px solid #ccc', background: page === Math.ceil(books.length / booksPerPage) || books.length === 0 ? '#eee' : '#fff', cursor: page === Math.ceil(books.length / booksPerPage) || books.length === 0 ? 'not-allowed' : 'pointer' }}
-                  >
-                    Última
-                  </button>
-                </div>
+                <CustomPagination
+                  page={page}
+                  setPage={setPage}
+                  totalPages={Math.ceil(books.length / booksPerPage)}
+                />
+
                 <BookModal
                   open={!!detailedBook}
                   onClose={() => {
