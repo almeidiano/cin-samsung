@@ -8,24 +8,24 @@ import styles from '../styles/BookCard.module.css';
 import Skeleton from '@mui/material/Skeleton';
 
 export default function BookCard({author_name, cover_i, first_publish_year, key, title, onInfoClick}) {
-  const [imgLoaded, setImgLoaded] = React.useState(true);
+  const [imgLoaded, setImgLoaded] = React.useState(false);
+  console.log(cover_i)
 
   return (
     <Box className={styles.bookCardRow}>
       {/* Miniatura */}
-      <div className={styles.parentThumbnail}>
+      <div>
         {!imgLoaded && (
           <Skeleton
             variant="rectangular"
-            width={48}
-            height={48}
+            width={40}
+            height={58}
             className={styles.thumbnail}
           />
         )}
         <img
-          src={cover_i ? `https://covers.openlibrary.org/b/id/${cover_i}-S.jpg` : 'https://placehold.co/48x48?text=Sem+Capa'}
+          src={cover_i ? `https://covers.openlibrary.org/b/id/${cover_i}-S.jpg` : 'https://placehold.co/40x58?text=Sem+Capa'}
           alt="Book Cover"
-          className={styles.thumbnail}
           // necessário para evitar que a imagem fique invisivel e não tenha seu elemento carregado, para que o skeleton fique o seu lugar.
           style={imgLoaded ? {} : { visibility: 'hidden' }} 
           onLoad={() => setImgLoaded(true)}

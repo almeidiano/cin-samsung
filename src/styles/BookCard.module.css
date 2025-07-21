@@ -10,14 +10,6 @@
   width: 100%;
 }
 
-.thumbnail {
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  object-fit: cover;
-  margin-right: 16px;
-}
-
 .titleArtist {
   display: flex;
   flex-direction: column;
@@ -69,10 +61,3 @@
   color: #bdbdbd;
   margin-left: 8px;
 } 
-
-.parentThumbnail {
-  position: 'relative'; 
-  display: 'flex'; 
-  align-items: 'center'; 
-  justify-content: 'center';
-}
