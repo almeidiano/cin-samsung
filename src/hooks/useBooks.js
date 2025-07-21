@@ -7,19 +7,23 @@ export default function useBooks(searchTerm) {
   const [booksError, setBooksError] = useState(false);
 
   useEffect(() => {
+    // Infelizmente a open library retorna um erro 500 ao inserir um * na query da API, 
+    // Por isso não é possível buscar livros sem um termo de busca.
     if (!searchTerm) {
       setBooks([]);
       return;
     }
+
     setLoading(true);
-    try {
-      fetchBooks(searchTerm)
-      .then(res => {setBooks(res.docs)})
+    setBooksError(false); 
+    
+    fetchBooks(searchTerm)
+      .then(res => setBooks(res.docs))
+      .catch(error => {
+        console.log(error);
+        setBooksError(true);
+      })
       .finally(() => setLoading(false));
-    } catch (error) {
-      console.log(error)
-      setBooksError(true);
-    }
   }, [searchTerm]);
 
   return { books, loading, booksError };

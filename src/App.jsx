@@ -7,6 +7,7 @@ import BookModal from './components/BookModal'
 import { fetchDetailedBook } from './services/openLibraryAPI';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import Pagination from '@mui/material/Pagination';
 
 function App() {
   // 1º. O estado da busca é atualizado através do setSearch.
@@ -18,6 +19,9 @@ function App() {
   const [detailedBook, setDetailedBookInfo] = useState(null);
   const [detailedBookError, setDetailedBookError] = useState(false);
   const { books, loading, booksError } = useBooks(search);
+  const [page, setPage] = useState(1);
+  const booksPerPage = 10;
+  const paginatedBooks = books.slice((page - 1) * booksPerPage, page * booksPerPage);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -49,7 +53,7 @@ function App() {
               <Loading />
             ) : (
               <>
-                {books.map(book => (
+                {paginatedBooks.map(book => (
                   <BookCard
                     key={book.key}
                     author_name={book.author_name?.[0]}
@@ -59,6 +63,11 @@ function App() {
                     onInfoClick={() => handleDetailedBook(book)}
                   />
                 ))}
+                <Pagination
+                  count={Math.ceil(books.length / booksPerPage)}
+                  page={page}
+                  onChange={(event, value) => setPage(value)}
+                />
                 <BookModal
                   open={!!detailedBook}
                   onClose={() => {

@@ -3,6 +3,8 @@ import axios from 'axios';
 export async function fetchBooks(title) {
   try {
     const response = await axios.get(
+      // Infelizmente a open library retorna um erro 500 ao inserir um * no searchTerm
+      // `https://openlibrary.org/search.json?q=${title ? encodeURIComponent(title) : '*'}&limit=25&fields=title,author_name,cover_i,first_publish_year,key`,
       `https://openlibrary.org/search.json?q=${encodeURIComponent(title)}&limit=25&fields=title,author_name,cover_i,first_publish_year,key`,
       { headers: { 'Content-Type': 'application/json' } }
     );
