@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Skeleton from '@mui/material/Skeleton';
-import styles from '../BookModal.module.css';
+import styles from '../styles/BookModal.module.css';
 
 export default function BookModal({ open, onClose, book }) {
   const [imgLoaded, setImgLoaded] = React.useState(true);

@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Skeleton from '@mui/material/Skeleton';
-import styles from '../Loading.module.css';
+import styles from '../styles/Loading.module.css';
 
 function Loading() {
   return (

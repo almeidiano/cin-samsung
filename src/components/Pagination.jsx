@@ -7,17 +7,11 @@ export default function CustomPagination({
   totalPages
 }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '16px 0' }}>
+    <div className="flex items-center gap-2 my-4">
       <button
         onClick={() => setPage(1)}
         disabled={page === 1}
-        style={{
-          padding: '6px 12px',
-          borderRadius: '4px',
-          border: '1px solid #ccc',
-          background: page === 1 ? '#eee' : '#fff',
-          cursor: page === 1 ? 'not-allowed' : 'pointer'
-        }}
+        className={`px-3 py-1.5 rounded border border-gray-300 ${page === 1 ? 'bg-gray-200 cursor-not-allowed' : 'bg-white cursor-pointer'}`}
       >
         Primeira
       </button>
@@ -29,13 +23,7 @@ export default function CustomPagination({
       <button
         onClick={() => setPage(totalPages)}
         disabled={page === totalPages || totalPages === 0}
-        style={{
-          padding: '6px 12px',
-          borderRadius: '4px',
-          border: '1px solid #ccc',
-          background: page === totalPages || totalPages === 0 ? '#eee' : '#fff',
-          cursor: page === totalPages || totalPages === 0 ? 'not-allowed' : 'pointer'
-        }}
+        className={`px-3 py-1.5 rounded border border-gray-300 ${(page === totalPages || totalPages === 0) ? 'bg-gray-200 cursor-not-allowed' : 'bg-white cursor-pointer'}`}
       >
         Última
       </button>

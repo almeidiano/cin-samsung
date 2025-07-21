@@ -1,21 +1,15 @@
-import React, { useState } from 'react';
-import { 
-  InputBase, 
-  IconButton, 
-  Paper, 
-  Box,
-  alpha
-} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { InputBase, IconButton, Paper, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
-import useDebounce from '../hooks/useDebounce'
-import { useEffect } from 'react'
+import useDebounce from '../hooks/useDebounce';
 
-export default function SearchBar({ onSearch, placeholder = "Pesquisar...", sx = {}}) {
+export default function SearchBar({ onSearch, placeholder = "Pesquisar..." }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const debouncedSearchTerm = useDebounce(searchTerm, 200)
 
-  // Chama onSearch apenas quando o valor debounced muda
+  // Delay de 500ms recomendado pela documentação técnica.
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
   useEffect(() => {
     if (onSearch) {
       onSearch(debouncedSearchTerm);
@@ -28,78 +22,33 @@ export default function SearchBar({ onSearch, placeholder = "Pesquisar...", sx =
 
   const handleClear = () => {
     setSearchTerm('');
-
     if (onSearch) {
       onSearch('');
     }
   };
 
   return (
-    <Box sx={{ width: '100%', ...sx }}>
+    <Box className="w-full">
       <Paper
         elevation={2}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          borderRadius: 3,
-          backgroundColor: (theme) => alpha(theme.palette.common.white, 0.9),
-          border: '1px solid',
-          borderColor: 'divider',
-          transition: 'all 0.2s ease-in-out',
-          '&:hover': {
-            elevation: 4,
-            borderColor: 'primary.main',
-            backgroundColor: (theme) => alpha(theme.palette.common.white, 1),
-          },
-          '&:focus-within': {
-            elevation: 6,
-            borderColor: 'primary.main',
-            backgroundColor: (theme) => alpha(theme.palette.common.white, 1),
-            boxShadow: (theme) => `0 0 0 2px ${alpha(theme.palette.primary.main, 0.2)}`,
-          }
-        }}
+        className="!rounded-lg flex items-center rounded-xl border border-gray-300 bg-white/90 transition-all duration-200 focus-within:border-primary-500 focus-within:bg-white focus-within:shadow-md hover:border-primary-500 hover:bg-white"
       >
         <IconButton
-          sx={{
-            p: '10px',
-            color: 'text.secondary',
-            '&:hover': {
-              color: 'primary.main',
-            }
-          }}
+          className="p-2 text-gray-500 hover:text-primary-500"
           aria-label="search"
         >
           <SearchIcon />
         </IconButton>
-        
         <InputBase
-          sx={{
-            ml: 1,
-            flex: 1,
-            fontSize: '1rem',
-            '& .MuiInputBase-input': {
-              padding: '12px 0',
-              '&::placeholder': {
-                opacity: 0.7,
-                color: 'text.secondary',
-              }
-            }
-          }}
+          className="ml-2 flex-1 text-base placeholder:text-gray-400 placeholder:opacity-70 py-3"
           placeholder={placeholder}
           value={searchTerm}
           onChange={handleChange}
           inputProps={{ 'aria-label': 'search' }}
         />
-        
         {searchTerm && (
           <IconButton
-            sx={{
-              p: '10px',
-              color: 'text.secondary',
-              '&:hover': {
-                color: 'error.main',
-              }
-            }}
+            className="p-2 text-gray-500 hover:text-red-500"
             onClick={handleClear}
             aria-label="clear search"
           >

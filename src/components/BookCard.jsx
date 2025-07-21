@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import InfoIcon from '@mui/icons-material/Info';
-import styles from '../BookCard.module.css';
+import styles from '../styles/BookCard.module.css';
 import Skeleton from '@mui/material/Skeleton';
 
 export default function BookCard({author_name, cover_i, first_publish_year, key, title, onInfoClick}) {
@@ -23,11 +23,11 @@ export default function BookCard({author_name, cover_i, first_publish_year, key,
           />
         )}
         <img
-          // src={`https://covers.openlibrary.org/b/id/${cover_i}-S.jpg`}
           src={cover_i ? `https://covers.openlibrary.org/b/id/${cover_i}-S.jpg` : 'https://placehold.co/48x48?text=Sem+Capa'}
           alt="Book Cover"
           className={styles.thumbnail}
-          style={imgLoaded ? {} : { visibility: 'hidden' }}
+          // necessário para evitar que a imagem fique invisivel e não tenha seu elemento carregado, para que o skeleton fique o seu lugar.
+          style={imgLoaded ? {} : { visibility: 'hidden' }} 
           onLoad={() => setImgLoaded(true)}
         />
       </div>
