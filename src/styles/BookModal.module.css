@@ -89,3 +89,7 @@
   .mb2 {
     margin-bottom: 16px;
   } 
+
+  .favoriteColor {
+    color: rgb(201, 57, 57);
+  }

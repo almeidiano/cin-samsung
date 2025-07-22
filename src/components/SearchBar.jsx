@@ -31,7 +31,7 @@ export default function SearchBar({ onSearch, placeholder = "Pesquisar..." }) {
     <Box className="w-full">
       <Paper
         elevation={2}
-        className="!rounded-lg flex items-center rounded-xl border border-gray-300 bg-white/90 transition-all duration-200 focus-within:border-primary-500 focus-within:bg-white focus-within:shadow-md hover:border-primary-500 hover:bg-white"
+        className="my-2 flex items-center rounded-xl border border-gray-300 bg-white/90 transition-all duration-200 focus-within:border-primary-500 focus-within:bg-white focus-within:shadow-md hover:border-primary-500 hover:bg-white"
       >
         <IconButton
           className="p-2 text-gray-500 hover:text-primary-500"
