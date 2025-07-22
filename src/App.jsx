@@ -8,6 +8,7 @@ import { fetchDetailedBook } from './services/openLibraryAPI';
 import CustomPagination from './components/Pagination';
 import NotFound from './components/NotFound';
 import Error from './components/Error';
+import { getFavoritedBooks } from './utils/helpers';
 
 function App() {
   // 1º. O estado da busca é atualizado através do setSearch.
@@ -25,6 +26,17 @@ function App() {
   // erros
   const { books, loading, booksError, setBooksError } = useBooks(search, page);
   const [detailedBookError, setDetailedBookError] = useState(false);
+
+  // favoritos
+  const [favoriteBooksLength, setFavoriteBooksLength] = useState(getFavoritedBooks().length);
+
+  useEffect(() => {
+    const handleStorage = () => {
+      setFavoriteBooksLength(getFavoritedBooks().length);
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
 
   const handleCloseBooksError = (event, reason) => {
     if (reason === 'clickaway') return;
@@ -51,8 +63,14 @@ function App() {
     }
   }
 
+  const updateFavoriteBooksLength = () => {
+    setFavoriteBooksLength(getFavoritedBooks().length);
+  };
+
   return (
     <main className="container mx-auto my-8">
+      <span className="text-gray-500 my-2">Livros Favoritados: {favoriteBooksLength}</span>
+      
       <SearchBar onSearch={setSearch} placeholder="Digite para pesquisar..." />
 
       <div>
@@ -71,6 +89,7 @@ function App() {
                       first_publish_year={book.first_publish_year}
                       title={book.title}
                       onInfoClick={() => handleDetailedBook(book)}
+                      onFavoriteChange={updateFavoriteBooksLength}
                     />
                   ))}
                   <CustomPagination
@@ -83,7 +102,7 @@ function App() {
                 <NotFound query={search} />
               )
             ) : (
-              <div className="flex flex-col items-center justify-center w-full py-8">
+              <div className="flex flex-col items-center justify-center w-full py-2">
                 <p className="sm:text-2xl text-xl font-semibold mb-2 text-center">
                   Digite um termo para pesquisar...
                 </p>
@@ -96,6 +115,7 @@ function App() {
                 setDetailedBookInfo(null);
               }}
               book={detailedBook}
+              onFavoriteChange={updateFavoriteBooksLength}
             />
           </div>
         )}

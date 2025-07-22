@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -8,11 +8,33 @@ import Button from '@mui/material/Button';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Skeleton from '@mui/material/Skeleton';
 import styles from '../styles/BookModal.module.css';
+import { getFavoritedBooks, addFavorite, removeFavorite } from '../utils/helpers';
 
 export default function BookModal({ open, onClose, book }) {
   const [imgLoaded, setImgLoaded] = React.useState(true);
+  const [favoritedBooks, setFavoritedBooks] = useState(getFavoritedBooks());
+
+  useEffect(() => {
+    // O método storage dispara quando o localStorage é alterado.
+    const syncFavorites = () => setFavoritedBooks(getFavoritedBooks());
+    window.addEventListener('storage', syncFavorites);
+    return () => window.removeEventListener('storage', syncFavorites);
+  }, []);
 
   if (!book) return null;
+  
+  // Verifica se o livro está favoritado
+  const isFavorite = favoritedBooks.includes(book.title);
+
+  // Caso o livro seja favoritado, remove o título do array, caso contrário, adiciona o título ao array.
+  // Pois cada titulo de um livro é único.
+  const handleFavorite = () => {
+    if (isFavorite) {
+      setFavoritedBooks(removeFavorite(book.title));
+    } else {
+      setFavoritedBooks(addFavorite(book.title));
+    }
+  };
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -65,8 +87,14 @@ export default function BookModal({ open, onClose, book }) {
             {/* Favoritar Button */}
             {imgLoaded ? (
               <Box className="my-2">
-                <Button variant="outlined" startIcon={<FavoriteIcon />}>
-                  Favoritar
+                <Button
+                  variant="outlined"
+                  startIcon={
+                    <FavoriteIcon className={isFavorite ? styles.favoriteColor : ''} />
+                  }
+                  onClick={handleFavorite}
+                >
+                  {isFavorite ? 'Desfavoritar' : 'Favoritar'}
                 </Button>
               </Box>
             ) : (
